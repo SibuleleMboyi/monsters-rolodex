@@ -26,8 +26,7 @@ class App extends Component {
               this.setState({ name: 'Andrew' });
               console.log(this.state);
             }}>
-            {' '}
-            Change Name{' '}
+            Change Name
           </button>
         </header>
       </div>
