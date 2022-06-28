@@ -7,7 +7,7 @@ class App extends Component {
     super();
 
     this.state = {
-      name: 'Yihua',
+      name: { firstName: 'Yihua', lastName: 'Zhang' },
       company: 'ZTM',
     };
   }
@@ -18,13 +18,25 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <p>
-            Hi {this.state.name}, I work at {this.state.company}
+            Hi {this.state.name.firstName} {this.state.name.lastName}, I work at{' '}
+            {this.state.company}
           </p>
 
           <button
             onClick={() => {
-              this.setState({ name: 'Andrew' });
-              console.log(this.state);
+              this.setState(
+                () => {
+                  return { name: { firstName: 'Andrei', lastName: 'Neaogie' } };
+                },
+                () => {
+                  // callback function.
+                  // It's a fuction that gets called after the execution of the priority function.
+                  // In this case, a after the execution of the function in the 1st argument.
+
+                  console.log(this.state);
+                }
+              );
+              //
             }}>
             Change Name
           </button>
