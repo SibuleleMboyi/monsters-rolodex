@@ -1,46 +1,27 @@
-import { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      name: { firstName: 'Yihua', lastName: 'Zhang' },
-      company: 'ZTM',
+      monsters: [
+        { name: "Linda" },
+        { name: "Frank" },
+        { name: "Jacky" },
+        { name: "Andrei" },
+      ],
     };
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Hi {this.state.name.firstName} {this.state.name.lastName}, I work at{' '}
-            {this.state.company}
-          </p>
-
-          <button
-            onClick={() => {
-              this.setState(
-                () => {
-                  return { name: { firstName: 'Andrei', lastName: 'Neaogie' } };
-                },
-                () => {
-                  // callback function.
-                  // It's a fuction that gets called after the execution of the priority function.
-                  // In this case, a after the execution of the function in the 1st argument.
-
-                  console.log(this.state);
-                }
-              );
-              //
-            }}>
-            Change Name
-          </button>
-        </header>
+        {this.state.monsters.map((monster) => {
+          return <h1>{monster.name}</h1>;
+        })}
       </div>
     );
   }
