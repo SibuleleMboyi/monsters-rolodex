@@ -12,9 +12,17 @@ const App = () => {
 
   console.log("render");
 
-  // this part of the function continously gets triggered and called everytime seMonsters()
-  // is getting called.
-  // And for this reason, we will optimize the code by the hook called useEffect()
+  // Side Effects, are parts of the code that are declared globaly outside the local scope
+  // of the function but are also accessible in the local scope of this function.
+  // Because fetch() function gets information outside this functional component, it is therefore a
+  // Side Effect.
+
+  // fetch() continously gets triggered and called everytime seMonsters() is getting called.
+  // When setMonsters(users) is called, this functional component re-renders.
+  // This becomes an infinite loop because whenever setMonsters(users) is called, the functional
+  // component rebuilds.
+
+  // And for this reason, we will optimize this functional component by the hook called useEffect()
   fetch("https://jsonplaceholder.typicode.com/users")
     .then((response) => response.json())
     .then((users) => setMonsters(users));
