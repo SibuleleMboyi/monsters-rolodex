@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import SearchBox from "./components/search-box/search-box.component";
+import CardList from ".//components/card-list/card-list.component";
 
 // functional component
 // re-renders whenever the objects and values of the useState() hook change
 const App = () => {
   const [searchField, setSearchField] = useState("");
   const [monsters, setMonsters] = useState([]);
+  const [filteredMonsters, setFilteredMonsters] = useState(monsters);
 
   console.log(searchField);
 
@@ -23,13 +25,29 @@ const App = () => {
   // component rebuilds.
 
   // And for this reason, we will optimize this functional component by the hook called useEffect()
-  fetch("https://jsonplaceholder.typicode.com/users")
-    .then((response) => response.json())
-    .then((users) => setMonsters(users));
 
-  const filteredMonsters = monsters.filter((monster) => {
-    return monster.name.toLocaleLowerCase().includes(searchField);
-  });
+  useEffect(
+    () => {
+      console.log("External API - Effect firing");
+      // this is a callback function
+      // it is called whenever the values in the 2nd argument change( usually useState() values)
+      fetch("https://jsonplaceholder.typicode.com/users")
+        .then((response) => response.json())
+        .then((users) => setMonsters(users));
+    },
+    // a change of values in here trigger the callback function to execute
+    []
+  );
+
+  useEffect(() =>{
+    console.log("Filtering - Effect firing");
+    const newFilteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField);
+    });
+    setFilteredMonsters(newFilteredMonsters);
+  }, [monsters, searchField])
+
+
   const onSearchChange = (event) => {
     const searchFieldString = event.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
@@ -41,7 +59,7 @@ const App = () => {
         onChangeHandler={onSearchChange}
         placeholder="search monsters"
         className="monsters-search-box"></SearchBox>
-      {/*<CardList monsters={filteredMonsters}></CardList> */}
+      <CardList monsters={filteredMonsters}></CardList>
     </div>
   );
 };
